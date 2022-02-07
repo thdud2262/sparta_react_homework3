@@ -5,12 +5,25 @@ import styled from "styled-components";
 
 const Text = (props) => {
   // console.log(props)
-  const { children, bold, color, size, margin, padding,align } = props;
+  const { 
+    children, 
+    bold, 
+    color, 
+    size, 
+    margin, 
+    padding,
+    align,     
+  } = props;
   // console.log(props)//어떤 값이 넘어왔는지 확인함
 
   const styles = { 
-    bold:bold, color:color, size:size, 
-    margin:margin, padding:padding, align:align };
+    bold: bold, 
+    color: color, 
+    size: size, 
+    margin: margin, 
+    padding: padding, 
+    align: align,
+  };
 
   return(
     <React.Fragment>
@@ -28,6 +41,7 @@ Text.defaultProps = {
   padding : false,
   align: false,
 }
+
 const T = styled.p`
   font-weight : ${(props)=> props.bold? "600" : "400"};
   font-size :  ${(props)=> props.size};

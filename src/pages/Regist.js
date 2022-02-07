@@ -34,8 +34,8 @@ const Regist = (props) => {
           </Input>
           <Button 
             btn_size = 'big'
-            text = '로그인'>
-  
+            bg="#087f5b"
+            text = '회원가입하기'>
           </Button>
         </Grid>
       </React.Fragment>
