@@ -12,7 +12,9 @@ const Text = (props) => {
     size, 
     margin, 
     padding,
-    align,     
+    align,
+    _onClick,
+    cursor,     
   } = props;
   // console.log(props)//어떤 값이 넘어왔는지 확인함
 
@@ -23,11 +25,12 @@ const Text = (props) => {
     margin: margin, 
     padding: padding, 
     align: align,
+    cursor: cursor
   };
 
   return(
     <React.Fragment>
-      <T {...styles}>{children}</T>
+      <T {...styles} onClick={_onClick}>{children}</T>
     </React.Fragment>
   );
 };
@@ -40,17 +43,22 @@ Text.defaultProps = {
   margin : false,
   padding : false,
   align: false,
+  _onClick : ()=>{},
+  cursor: false,
 }
 
 const T = styled.p`
   font-weight : ${(props)=> props.bold? "600" : "400"};
   font-size :  ${(props)=> props.size};
   color : ${(props)=> props.color};
+  cursor : ${(props)=> props.cursor};
   ${(props)=> (props.margin? `margin : ${props.margin};` : "")};
   ${(props)=> (props.padding? `padding : ${props.padding};` : "")};
   ${(props)=> (props.align? `text-align : ${props.align};` : "")};
+  ${(props)=> (props.cursor? `cursor : pointer;` : "")};
   box-sizing : border-box;
 `;
+
 
 
 export default Text;
