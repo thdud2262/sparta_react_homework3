@@ -1,6 +1,9 @@
 // firebase인증가져오기
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import "firebase/firestore";
+import "firebase/storage";
+
 
 
 
@@ -18,6 +21,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 
+const firestore = firebase.firestore();
 const apiKey = firebaseConfig.apiKey;
-const auth = firebase.auth()
-export { auth, apiKey };
+const auth = firebase.auth();
+const storage = firebase.storage();
+
+
+
+export { auth, apiKey, firestore, storage };

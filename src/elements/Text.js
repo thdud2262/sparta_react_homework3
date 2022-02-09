@@ -44,7 +44,7 @@ Text.defaultProps = {
   padding : false,
   align: false,
   _onClick : ()=>{},
-  cursor: false,
+  cursor: 'default',
 }
 
 const T = styled.p`
@@ -55,7 +55,6 @@ const T = styled.p`
   ${(props)=> (props.margin? `margin : ${props.margin};` : "")};
   ${(props)=> (props.padding? `padding : ${props.padding};` : "")};
   ${(props)=> (props.align? `text-align : ${props.align};` : "")};
-  ${(props)=> (props.cursor? `cursor : pointer;` : "")};
   box-sizing : border-box;
 `;
 

@@ -7,17 +7,13 @@ import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
 
 //액션 타입
-// const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
-// const GET_USER = "GET_USER";
 const SET_USER = "SET_USER";
 
 
 
 //액션생성함수
-// const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-// const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
 
 
@@ -47,7 +43,7 @@ const loginFB= (id, pw) => {
             uid : user.user.uid,
           })
         );
-        window.alert(`즐거운 시간 보내세요! ${user.user.displayName}님!`);
+        window.alert(`즐거운 시간 보내세요, ${user.user.displayName}님`);
         history.push('/');
       })
       .catch((error) => {

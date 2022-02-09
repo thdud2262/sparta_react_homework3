@@ -12,6 +12,7 @@ const Button = (props) => {
     width,
     height,
     bg,
+    align,
   } = props;
 
   const styles = {
@@ -20,6 +21,7 @@ const Button = (props) => {
     width: width,
     heigh: height, 
     bg: bg,
+    align: align,
   }
 
   if ( btn_size === 'mini'){
@@ -48,6 +50,7 @@ Button.defaultProps = {
   width : '100%',
   height : '100%',
   bg : '#adb5bd',
+  align : false,
 };
 
 const BtnMini = styled.button`
@@ -61,6 +64,8 @@ const BtnMini = styled.button`
   color : white;
   margin : ${(props)=> props.margin};
   cursor : pointer;
+  display : inline-block;
+  align: ${(props)=> `text-align: ${props.align}`};
 `;
 const BtnBig = styled.button`
   width : 100%;
