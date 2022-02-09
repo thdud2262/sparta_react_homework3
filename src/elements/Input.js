@@ -1,14 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { Text } from "./index";
+import { Text, Grid } from "./index";
 
 const Input = (props) => {
-  const { label, placeholder, _onChange, type } = props
-    
+  const { label, placeholder, _onChange, type, multiLine  } = props
+  
+  if(multiLine){
+    return (
+      <Grid>
+        {label && <Text margin="0px">{label}</Text>}
+        <ElTextarea
+          rows={10} 
+          placeholder={placeholder}
+          onChange={_onChange}>
+        </ElTextarea>
+      </Grid>
+    );
+  }
+
   return (
     <React.Fragment>
       <Text margin='2px'>{label}</Text>
-      <InputText 
+      <ElInput 
         placeholder={placeholder} 
         onChange={_onChange}
         type={type}
@@ -18,12 +31,14 @@ const Input = (props) => {
 }
 
 Input.defaultProps = {
+  multiLine: false,
   label : '텍스트',
   placeholder : '텍스트를 입력하세요',
-  _onChange : ()=>{},
   type : 'text',
+  _onChange : ()=>{},
+
 };
-const InputText = styled.input`
+const ElInput = styled.input`
   border: 1px solid #212121;
   width : 100%;
   padding : 12px;
@@ -32,5 +47,16 @@ const InputText = styled.input`
   margin-bottom : 30px;
   type : ${(props)=> props.type};
 `;
+
+const ElTextarea = styled.textarea`
+  border: 1px solid #212121;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+
+`;
+
+
+
 
 export default Input;
