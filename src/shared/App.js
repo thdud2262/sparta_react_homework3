@@ -19,6 +19,7 @@ import { FaCameraRetro } from 'react-icons/fa';
 import Permit from './Permit';
 import PostWrite from '../pages/PostWrite'
 import PostDetail from '../pages/PostDetail'
+import PostEdit from "../pages/PostEdit";
 
 
 
@@ -45,7 +46,9 @@ function App() {
         <Route path="/login" exact component={ Login }/>
         <Route path="/regist" exact component={ Regist }/>
         <Route path="/write" exact component={ PostWrite }/>
+        <Route path="/write/:id" exact component={ PostWrite }/>
         <Route path="/post/:id" exact component={ PostDetail }/>
+        <Route path="/edit/:id" exact component={ PostEdit }/>
 
       </ConnectedRouter>
       <Permit>

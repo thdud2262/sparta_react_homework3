@@ -43,6 +43,9 @@ const loginFB= (id, pw) => {
             uid : user.user.uid,
           })
         );
+        console.log(user)
+        console.log(user.uid)
+
         window.alert(`즐거운 시간 보내세요, ${user.user.displayName}님`);
         history.push('/');
       })
@@ -75,6 +78,7 @@ const signupFB= (id, pw, user_name)=> {
             id : id, 
             user_profile : '',
             uid : user.user.uid,
+            //uid- firestore 고유한 iddlfjsrj..
           })
         )
         window.alert(`환영합니다. ${user_name}님!`)      

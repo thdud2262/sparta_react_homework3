@@ -2,17 +2,24 @@ import React from 'react';
 import { Grid, Text, Image, Button } from '../elements';
 import { useDispatch } from 'react-redux';
 import { actionCreators as postActions } from "../redux/modules/post";
+import { useHistory } from "react-router-dom";
 
 const Post = (props) => {
-  // console.log(props) 
+  // console.log(props.id) 
   const dispatch = useDispatch()
-  // 삭제해줘 삭제할거 어떻게가져와 
+  const history = useHistory();
 
+  // console.log(props.is_me)
 
   const delete_btn = ()=> {
     const imageDel =props
-    // console.log(imageDel, imaged)
+    // props.is_me? dispatch(postActions.delPostFB(imageDel)) : window.alert('내가 작성한 게시물만 삭제 가능합니다')
+    // console.log(imageDel)
     dispatch(postActions.delPostFB(imageDel))
+  }
+  const update_btn= ()=> {
+    history.push("/write/" + props.id) //id와 함께 페이지이동
+    console.log('업데이트클릭', props)
   }
 
   return (
@@ -24,12 +31,19 @@ const Post = (props) => {
         </Grid>
         <Grid is_flex flex_end >
           <Text margin='0 5px 0 0'> {props.insert_dt} </Text>
-          <Button 
+          <Button margin='0 5px 0 0'
             text='삭제' 
             _onClick={()=> {
               delete_btn()
             }}
           ></Button>
+          { props.is_me && 
+          <Button text='수정' 
+            _onClick={()=> { 
+              update_btn(
+              //props에 is_me가 있는 경우에 버튼 보여줘
+            ) }}
+          ></Button> }
         </Grid>
       </Grid>
 
@@ -61,7 +75,8 @@ Post.defaultProps = {
   image_url : "https://dimg.donga.com/a/600/0/90/5/wps/NEWS/IMAGE/2021/09/27/109431207.2.jpg",
   contents : "안녕하세요! 리액트를 잘하고싶은 정소영입니다 으하하하핳ㅎ  ",
   comment_cnt: '좋아요 10',
-  insert_dt : "2022.02.04"
+  insert_dt : "2022.02.04",
+  is_me: false,
 
 }
 

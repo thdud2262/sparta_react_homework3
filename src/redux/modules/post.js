@@ -1,9 +1,9 @@
 // 리덕스에 넣어야 할 데이터 
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore} from "../../shared/firebase";
 import moment from "moment"  //날짜, 시간 다루는 js라이브러리
-import { firebase, storage } from '../../shared/firebase';
+import { firebase, storage, database } from '../../shared/firebase';
 import { actionCreators as imageActions } from "./image";
 
 
@@ -17,8 +17,8 @@ const UPDATE_POST = "UPDATE_POST";
 //액션생성함수
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const delPost = createAction(DELETE_POST, (post) => ({ post }));
-// const updatePost = createAction(UPDATE_POST, (post) => ({ post }));
+const delPost = createAction(DELETE_POST, (post_id) => ({ post_id }));
+const updatePost = createAction(UPDATE_POST, (post) => ({ post }));
 
 
 // 리듀서가 사용할 초기화 initialState
@@ -58,7 +58,8 @@ const addPostFB = (contents ='') =>{
 
     const user_info = {
       user_name : _user.user_name,
-      user_profile : _user.user_profile
+      user_profile : _user.user_profile,
+      user_id: _user.uid
     };
     // console.log(user_info)
   
@@ -80,8 +81,10 @@ const addPostFB = (contents ='') =>{
           //결과를 이어서 다음으로 넘긴다 js문법..ㅠㅡㅠ
         }).then((url)=>{
           postDB.add({user_info, ..._post, image_url : url})
-          .then((doc)=>{  //성공하면 실행
-            let post = {user_info, ..._post, image_url: url }
+          .then((doc)=>{
+        
+            //성공하면 실행
+            let post = {user_info, ..._post, image_url: url, id: doc.id }
             //포스트 더해주고, 이미지 미리보기 null로 해주기
             dispatch(addPost(post))
             dispatch(imageActions.setPreview(null))
@@ -102,7 +105,6 @@ const addPostFB = (contents ='') =>{
     }
   }
 
-
 // firebase에서 데이터 가져올 때 doc참고
 const getPostFB = () => {
   // 포스트 firebase에서 가져옴
@@ -121,7 +123,8 @@ const getPostFB = () => {
           id : doc.id,
           user_info: {
             user_name: _post.user_info.user_name,
-            user_profile: _post.user_info.user_profile
+            user_profile: _post.user_info.user_profile,
+            user_id : _post.user_info.user_id
           },
           image_url: _post.image_url,
           contents: _post.contents,
@@ -139,34 +142,20 @@ const getPostFB = () => {
   }
 }
 
-
 const delPostFB= (postDel)=>{
   return function (dispatch, getState, {history}){
     console.log(postDel)
+    console.log('삭제 됐었는데' )
+    dispatch(delPost(postDel)); 
+  // firebase갑자기 안됌! ㅇㅅㅇ
     const postDB = firestore.collection('post');
-
-    let post = {
-      id : postDel.id,
-      user_info: {
-        user_name: postDel.user_info.user_name,
-        user_profile: postDel.user_info.user_profile
-      },
-      image_url: postDel.image_url,
-      contents: postDel.contents,
-      comment_cnt: postDel.comment_cnt,
-      insert_dt: postDel.insert_dt,
-    }
-
-    
-    postDB.doc(post).delete()
+    postDB.doc(postDel).delete()
     .then(() => {
       console.log("Document successfully deleted!");
-      // dispatch(delPost(postDel));
+      dispatch(delPost(postDel));
   }).catch((error) => {
       console.error("Error removing document: ", error);
   });
-
-
   }
 }
 
@@ -177,20 +166,23 @@ export default handleActions(
   {
       [SET_POST]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.post_list;
-        console.log(action.payload.post_list)
+        // console.log(action.payload.post_list)
         //firestore에 있는 data가 보임
       }),
       [ADD_POST]: (state, action) => produce(state, (draft) => {
-        console.log(state, 'ADD리듀서')
+        // console.log(state, 'ADD리듀서')
         draft.list=[];
         draft.list.unshift(action.payload.post);
       }),
       [DELETE_POST]: (state, action) => produce(state, (draft) => {
-        console.log('delete리듀서')
-        console.log( action.payload.post)
-        
-
-
+        // console.log(action.payload.post_id); 
+        // 삭제할 게시글의 index를 찾아서 splice로 지운다. 
+        let idx = 
+        draft.list.findIndex((p) => p.id === action.payload.post_id); 
+        console.log(idx); 
+        draft.list.splice(idx, 1); 
+        //f리듀서 지워야 화면에 바로 새로고침 
+        //state수정함. 
       })
   },
   initialState

@@ -16,6 +16,7 @@ const Grid = (props) => {
     flex_between,
     flex_end,
     border,
+    _onClick,
   } = props;
   // console.log(props)//어떤 값이 넘어왔는지 확인함
 
@@ -30,12 +31,14 @@ const Grid = (props) => {
     flex_between: flex_between,
     flex_end: flex_end,
     border: border,
+    _onClick: _onClick,
+
   };
 
 
   return(
     <React.Fragment>
-      <GridBox {...styles}>{children}</GridBox>
+      <GridBox {...styles} onClick = {_onClick}>{children}</GridBox>
     </React.Fragment>
   );
 };
@@ -52,6 +55,8 @@ Grid.defaultProps = {
   margin: false,
   bg: false,
   border: false,
+  _onClick: ()=> {},
+
 };
 
 const GridBox = styled.div`

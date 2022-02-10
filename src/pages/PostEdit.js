@@ -9,13 +9,10 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import {Grid, Text, Button, Image, Input} from '../elements'
 import styled from 'styled-components';
 import Upload from '../shared/Upload';
+import {database} from  "../shared/firebase"
 
-
-
-
-
-const PostWrite = (props) => {
-  // console.log(props)
+const PostEdit = (props) => {
+  console.log(props)
 
   const dispatch = useDispatch()
   // store-user에 있는 data중에서 login찾압
@@ -23,7 +20,7 @@ const PostWrite = (props) => {
   const preview = useSelector((state)=> state.image.preview)
   // console.log(preview)
 
-  //왜 변수로 받지 props의 하나로 가져와! ..음 왜 어케..
+  //router에서 
   const { history }= props; 
   
   //input-textarear 가져오기
@@ -32,7 +29,11 @@ const PostWrite = (props) => {
     console.log(contents)
     dispatch(postActions.addPostFB(contents))
   }
-  console.log(props.match.params.id)
+  React.useEffect(() => {
+    
+  }, [])
+  
+
 
 
   if (!is_login){
@@ -49,7 +50,7 @@ const PostWrite = (props) => {
   return(
     <Grid border='1px solid black'>
       <Grid padding ='15px'>
-        <Text size='30px' bold margin='20px 0' align='center'>게시글작성</Text>
+        <Text size='30px' bold margin='20px 0' align='center'>게시글 수정</Text>
         <Upload></Upload>
       </Grid>
 
@@ -79,6 +80,6 @@ const PostWrite = (props) => {
   )
 }
 
-export default PostWrite;
+export default PostEdit;
 
 
